@@ -22,10 +22,14 @@
         </ul>
     </nav>
     <form method="post" >
+        <p><span class="error">* Required field</span></p>
         <div class="form-row">
             <div class="form-group col-md-6">
-                <label for="email">E-mail: *</label>
+                
+                <label for="email">E-mail: </label> 
+                <span class="error">* <?php echo $emailErr;?></span>
                 <input type="text" id="email" name="email" class="form-control"/>
+                
             </div>
             <div></div>
         </div>
@@ -36,21 +40,25 @@
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="street">Street:</label>
+                    <span class="error">* <?php echo $streetErr;?></span>
                     <input type="text" name="street" id="street" class="form-control">
                 </div>
                 <div class="form-group col-md-6">
                     <label for="streetnumber">Street number:</label>
+                    <span class="error">* <?php echo $streetNumberErr;?></span>
                     <input type="text" id="streetnumber" name="streetnumber" class="form-control">
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="city">City:</label>
+                    <span class="error">* <?php echo $cityErr;?></span>
                     <input type="text" id="city" name="city" class="form-control">
                 </div>
                 <div class="form-group col-md-6">
                     <label for="zipcode">Zipcode</label>
-                    <input type="text" id="zipcode" name="zipcode" class="form-control">
+                    <span class="error">* <?php echo $zipcodeErr;?></span>
+                    <input type="number" id="zipcode" name="zipcode" class="form-control">
                 </div>
             </div>
         </fieldset>
@@ -73,11 +81,23 @@
     </form>
 
     <footer>You already ordered <strong>&euro; <?php echo $totalValue ?></strong> in pizza(s) and drinks.</footer>
-</div>
+</div>  
+
+<?php
+echo "<h2>Your Input:</h2>";
+echo $emailInput . "<br>";
+echo $streetInput . "<br>";
+echo $streetNumberInput . "<br>";
+echo $cityInput . "<br>";
+echo $zipcodeInput . "<br>";
+?>
 
 <style>
     footer {
         text-align: center;
+    }
+    .error {
+        color: red;
     }
 </style>
 </body>

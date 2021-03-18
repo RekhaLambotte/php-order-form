@@ -42,11 +42,63 @@ $products = [
 
 $totalValue = 0;
 
-require 'form-view.php';
-
 // define variables and set to empty values
-$name = $email = $gender = $comment = $website = "";
+$emailInput = $streetInput = $streetNumberInput = $cityInput = $zipcodeInput = "";
+$emailErr = $streetErr = $streetNumberErr = $cityErr = $zipcodeErr = "";
 
-if ($_SERVER['RESUEST_METHOD']=== "POST"){
-    var_dump($_POST) 
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST'){
+    // var_dump($_POST['email']);
+    // echo $_POST['street'];
+    // $emailInput = test_input($_POST['email']);
+    if (empty($_POST["email"])) {
+        $emailErr = "Email is required";
+      } else {
+        $emailInput = test_input($_POST["email"]);
+            
+        if (!filter_var($emailInput, FILTER_VALIDATE_EMAIL)) {
+            $emailErr = "Invalid email format";
+        };
+            
+      }
+    
+    // $streetInput = test_input($_POST['street']);
+    if (empty($_POST["street"])) {
+        $streetErr = "Street is required";
+      } else {
+        $streetInput = test_input($_POST["street"]);
+      }
+
+    // $streetNumberInput = test_input($_POST['streetnumber']);
+    if (empty($_POST["streetnumber"])) {
+        $streetNumberErr = "Street is required";
+      } else {
+        $streetNumberInput = test_input($_POST["streetnumber"]);
+        if (! is_numeric($streetNumberInput)) {
+            $streetNumberErr = "Invalid street number";
+        };
+      }
+
+    // $cityInput = test_input($_POST['city']);
+    if (empty($_POST["city"])) {
+        $cityErr = "Street is required";
+      } else {
+        $cityInput = test_input($_POST["city"]);
+      }
+
+    // $zipcodeInput = test_input($_POST['zipcode']);
+    if (empty($_POST["zipcode"])) {
+        $zipcodeErr = "Street is required";
+      } else {
+        $zipcodeInput = test_input($_POST["zipcode"]);
+      }
+};
+
+function test_input($data) {
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
 }
+
+require 'form-view.php';
