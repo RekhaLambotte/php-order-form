@@ -19,7 +19,7 @@ function whatIsHappening() {
 }
 
 //your products with their price.
-$products = [
+$foods = [
     ['name' => 'Margherita', 'price' => 8],
     ['name' => 'Hawaï', 'price' => 8.5],
     ['name' => 'Salami pepper', 'price' => 10],
@@ -31,7 +31,7 @@ $products = [
     ['name' => 'Scampi', 'price' => 11.5]
 ];
 
-$products = [
+$drinks = [
     ['name' => 'Water', 'price' => 1.8],
     ['name' => 'Sparkling water', 'price' => 1.8],
     ['name' => 'Cola', 'price' => 2],
@@ -46,52 +46,88 @@ $totalValue = 0;
 $emailInput = $streetInput = $streetNumberInput = $cityInput = $zipcodeInput = "";
 $emailErr = $streetErr = $streetNumberErr = $cityErr = $zipcodeErr = "";
 
+$validForm = "";
+$errorForm = "";
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST'){
-    // var_dump($_POST['email']);
-    // echo $_POST['street'];
-    // $emailInput = test_input($_POST['email']);
-    if (empty($_POST["email"])) {
-        $emailErr = "Email is required";
-      } else {
-        $emailInput = test_input($_POST["email"]);
-            
+$menu = $foods;
+
+if (isset ($_POST['drink'])) {  
+    $menu = $drinks;
+} else{
+    $menu = $foods;
+}
+
+
+/*if ($_SERVER['REQUEST_METHOD'] === 'POST'){
+
+    // Email
+    if (!empty($_POST["email"])) {
+    //     $emailErr = "Email is required";
+    //   } else {  ==> remplacé par le ! du filter_var et le required dans le input du form-view.php
+        $emailInput = test_input($_POST["email"]);    
         if (!filter_var($emailInput, FILTER_VALIDATE_EMAIL)) {
-            $emailErr = "Invalid email format";
-        };
-            
+            $emailErr = '<div class="alert alert-primary" role="alert"> Invalid email format </div>';
+        };         
       }
     
-    // $streetInput = test_input($_POST['street']);
-    if (empty($_POST["street"])) {
-        $streetErr = "Street is required";
-      } else {
+    // Street
+    if (!empty($_POST["street"])) {
+    //     $streetErr = "Street is required";
+    //   } else { ==> remplacé par le ! du filter_var et le required dans le input du form-view.php
         $streetInput = test_input($_POST["street"]);
-      }
+    }
 
-    // $streetNumberInput = test_input($_POST['streetnumber']);
-    if (empty($_POST["streetnumber"])) {
-        $streetNumberErr = "Street is required";
-      } else {
+    // Street Number
+    if (!empty($_POST["streetnumber"])) {
+    //     $streetNumberErr = "Street is required";
+    //   } else { ==> remplacé par le ! du filter_var et le required dans le input du form-view.php
         $streetNumberInput = test_input($_POST["streetnumber"]);
         if (! is_numeric($streetNumberInput)) {
-            $streetNumberErr = "Invalid street number";
+            $streetNumberErr = '<div class="alert alert-primary" role="alert"> Invalid email format </div>';
         };
       }
 
-    // $cityInput = test_input($_POST['city']);
-    if (empty($_POST["city"])) {
-        $cityErr = "Street is required";
-      } else {
+    // City
+    if (! empty($_POST["city"])) {
+    //     $cityErr = "Street is required";
+    //   } else { ==> remplacé par le ! du filter_var et le required dans le input du form-view.php
         $cityInput = test_input($_POST["city"]);
       }
 
-    // $zipcodeInput = test_input($_POST['zipcode']);
-    if (empty($_POST["zipcode"])) {
-        $zipcodeErr = "Street is required";
-      } else {
+    // Zip code
+    if (! empty($_POST["zipcode"])) {
+    //     $zipcodeErr = "Street is required";
+    //   } else { ==> remplacé par le ! du filter_var et le required dans le input du form-view.php
         $zipcodeInput = test_input($_POST["zipcode"]);
       }
+}; */
+
+$var="email"; // obligation d'initialiser la variable au premier élément, sinon cela ne fonctionne pas/
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST'){
+
+    switch ( $var){
+        case "email":
+            $emailInput = test_input($_POST["email"]); 
+            if (!filter_var($emailInput, FILTER_VALIDATE_EMAIL)) {
+                $emailErr = '<div class="alert alert-danger" role="alert"> Invalid email format </div>';
+            }
+
+        case "street":
+            $streetInput = test_input($_POST["street"]);
+
+        case "streetnumber":
+            $streetNumberInput = test_input($_POST["streetnumber"]);
+            if (!filter_var($streetNumberInput, FILTER_VALIDATE_INT)){
+                $streetNumberErr = '<div class="alert alert-danger"role="alert"> Invalid street number format </div>';
+            }
+
+        case "city":
+            $cityInput = test_input($_POST["city"]);
+            
+        case "zipcode":
+            $zipcodeInput = test_input($_POST["zipcode"]);
+    }
 };
 
 function test_input($data) {
@@ -99,6 +135,15 @@ function test_input($data) {
     $data = stripslashes($data);
     $data = htmlspecialchars($data);
     return $data;
-}
+};
+
+if (isset ($_POST['submit'])) {  
+
+    if ($emailErr == "" && $streetErr == "" && $streetNumberErr == "" && $cityErr == "" && $zipcodeErr == "") {  
+        $validForm = '<div class="alert alert-success text-center text-uppercase my-4 fs-2" role="alert"> Thank you </div>'; 
+    } else {  
+        $errorForm = '<div class="alert alert-danger text-center text-uppercase my-4 fs-2" role="alert"> Sorry, there is a mistake </div>';   
+    }
+}  
 
 require 'form-view.php';

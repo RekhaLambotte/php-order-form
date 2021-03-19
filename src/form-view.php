@@ -14,10 +14,10 @@
     <nav>
         <ul class="nav">
             <li class="nav-item">
-                <a class="nav-link active" href="?food=1">Order pizzas</a>
+                <a class="nav-link active" name="food" href="?food=1">Order pizzas</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="?food=0">Order drinks</a>
+                <a class="nav-link" name="drink" href="?food=0">Order drinks</a>
             </li>
         </ul>
     </nav>
@@ -27,8 +27,8 @@
             <div class="form-group col-md-6">
                 
                 <label for="email">E-mail: </label> 
-                <span class="error">* <?php echo $emailErr;?></span>
-                <input type="text" id="email" name="email" class="form-control"/>
+                <span class="error">* </span> <?php echo $emailErr;?>
+                <input type="text" id="email" name="email" class="form-control" value="<?php echo $emailInput;?>" required />
                 
             </div>
             <div></div>
@@ -41,34 +41,34 @@
                 <div class="form-group col-md-6">
                     <label for="street">Street:</label>
                     <span class="error">* <?php echo $streetErr;?></span>
-                    <input type="text" name="street" id="street" class="form-control">
+                    <input type="text" name="street" id="street" class="form-control" value="<?php echo $streetInput;?>" required>
                 </div>
                 <div class="form-group col-md-6">
                     <label for="streetnumber">Street number:</label>
                     <span class="error">* <?php echo $streetNumberErr;?></span>
-                    <input type="text" id="streetnumber" name="streetnumber" class="form-control">
+                    <input type="text" id="streetnumber" name="streetnumber" class="form-control" value="<?php echo $streetNumberInput;?>" required>
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="city">City:</label>
                     <span class="error">* <?php echo $cityErr;?></span>
-                    <input type="text" id="city" name="city" class="form-control">
+                    <input type="text" id="city" name="city" class="form-control" value="<?php echo $cityInput;?>" required>
                 </div>
                 <div class="form-group col-md-6">
                     <label for="zipcode">Zipcode</label>
                     <span class="error">* <?php echo $zipcodeErr;?></span>
-                    <input type="number" id="zipcode" name="zipcode" class="form-control">
+                    <input type="number" id="zipcode" name="zipcode" class="form-control" value="<?php echo $zipcodeInput;?>" required>
                 </div>
             </div>
         </fieldset>
 
         <fieldset>
             <legend>Products</legend>
-            <?php foreach ($products AS $i => $product): ?>
+            <?php foreach ($menu AS $i => $menu): ?>
                 <label>
-                    <input type="checkbox" value="1" name="products[<?php echo $i ?>]"/> <?php echo $product['name'] ?> -
-                    &euro; <?php echo number_format($product['price'], 2) ?></label><br />
+                    <input type="checkbox" value="1" name="products[<?php echo $i ?>]"/> <?php echo $menu['name'] ?> -
+                    &euro; <?php echo number_format($menu['price'], 2) ?></label><br />
             <?php endforeach; ?>
         </fieldset>
         
@@ -77,14 +77,17 @@
             Express delivery (+ 5 EUR) 
         </label>
             
-        <button type="submit" class="btn btn-primary">Order!</button>
+        <button type="submit" name="submit" class="btn btn-primary">Order!</button>
     </form>
 
     <footer>You already ordered <strong>&euro; <?php echo $totalValue ?></strong> in pizza(s) and drinks.</footer>
 </div>  
 
 <?php
-echo "<h2>Your Input:</h2>";
+
+echo $validForm;
+echo $errorForm;
+echo "<h2>Your order</h2>";
 echo $emailInput . "<br>";
 echo $streetInput . "<br>";
 echo $streetNumberInput . "<br>";
