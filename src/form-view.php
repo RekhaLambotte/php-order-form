@@ -14,10 +14,10 @@
     <nav>
         <ul class="nav">
             <li class="nav-item">
-                <a class="nav-link active" name="food" href="?food=1">Order pizzas</a>
+                <a class="nav-link active" href="?food=1">Order pizzas</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" name="drink" href="?food=0">Order drinks</a>
+                <a class="nav-link" href="?food=0">Order drinks</a>
             </li>
         </ul>
     </nav>
@@ -64,11 +64,12 @@
         </fieldset>
 
         <fieldset>
-            <legend>Products</legend>
-            <?php foreach ($menu AS $i => $menu): ?>
+            <legend>Products <span class="error">* <?php echo $menuErr;?></span> </legend>
+            
+            <?php foreach ($menu AS $i => $product): ?>
                 <label>
-                    <input type="checkbox" value="1" name="products[<?php echo $i ?>]"/> <?php echo $menu['name'] ?> -
-                    &euro; <?php echo number_format($menu['price'], 2) ?></label><br />
+                    <input type="checkbox" value="1" name="products[<?php echo $i ?>]"/> <?php echo $product['name'] ?> -
+                    &euro; <?php echo number_format($product['price'], 2) ?></label><br />
             <?php endforeach; ?>
         </fieldset>
         
@@ -93,6 +94,8 @@ echo $streetInput . "<br>";
 echo $streetNumberInput . "<br>";
 echo $cityInput . "<br>";
 echo $zipcodeInput . "<br>";
+// echo $menuInput . "<br>";
+echo $deleveryTime . "<br>";
 ?>
 
 <style>
