@@ -19,12 +19,12 @@ Délai: 4 jours
 
 
 ## Statut:
-En cours/ terminé
+terminé
 
 ## Projet déployé: 
 Lien Github : https://github.com/RekhaLambotte/php-order-form.git
 
-Lien Web : 
-## results
+Lien Web : https://pizzabecode.herokuapp.com/
+
 
 
