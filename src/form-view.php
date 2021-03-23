@@ -96,6 +96,7 @@ echo $cityInput . "<br>";
 echo $zipcodeInput . "<br>";
 // echo $menuInput . "<br>";
 echo $deleveryTime . "<br>";
+echo $choiceMenu . "<br>";
 ?>
 
 <style>

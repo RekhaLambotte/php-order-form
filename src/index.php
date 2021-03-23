@@ -51,6 +51,8 @@ $errorForm = "";
 
 $menu = $pizza;
 
+$food = "";
+
 // changement entre menu pizza et drink. GET est utilisé ca c'est sur base de des donnée dans url qu'on va effecté le changement. 
 if(isset($_GET['food'])){
     // pas de valeur car c'est la valeur par défaut qui équivaut
@@ -141,9 +143,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
     //checkbox
     if (!isset ($_POST["products"])) {  
             $menuErr = '<div class="alert alert-danger"role="alert"> Invalid selection </div>';  
-    } else {  
-            $menuInput = $_POST['products'];  
-    }  
+    } 
 };
 
 //Fonction pour filter les données encodée
@@ -159,33 +159,43 @@ $minute = $localTime[1];
 $heure = $localTime[2]+1; // + 1 car nous sommes au fuseau horaire +1
 
 $deleveryTime = ""; 
-// $deleveryQuick = "";
+$choiceMenu ="";
 
 // bouton de validation
 if (isset ($_POST['submit'])) {  
 
     if ($emailErr == "" && $streetErr == "" && $streetNumberErr == "" && $cityErr == "" && $zipcodeErr == ""&& $menuErr == "") {  
         $validForm = '<div class="alert alert-success text-center text-uppercase my-4 fs-2" role="alert"> Thank you </div>';
+
+        if (isset ($_POST['express_delivery'])){
+            $minute = $minute + 30;
+            if($minute >= 60){
+            $heure = $heure - 1 ;
+            $minute = $minute - 60;
+            
+            }
+            $deleveryTime = "Delivery will arrive at : ". $heure . "H " . $minute;
+            $totalValue = 5; // pour ajouter le prix des l'express delivery au prix total
+            
+        }else{
+            $deleveryTime = "Delivery will arrive at : ". $heure + 1 . "H " . $minute; 
+        };
+
     } else {  
         $errorForm = '<div class="alert alert-danger text-center text-uppercase my-4 fs-2" role="alert"> Sorry, there is a mistake </div>';   
     };
 
-   
-
-    if (isset ($_POST['express_delivery'])){
-        $minute = $minute + 30;
-        if($minute >= 60){
-        $heure = $heure - 1 ;
-        $minute = $minute - 60;
-        $deleveryTime = "Delivery will arrive at : ". $heure . "H " . $minute;
+    
+    if(isset($_POST['products'])){
+        $food = $_POST['products'];
+        foreach($food AS $i => $choice){
+            $choiceMenu = $menu[$i]['name'];
+            $choice= $menu[$i]['price'];
+            $totalValue += $choice;
         }
-        // else{
-        //     $deleveryTime = "Delivery will arrive at : ". $heure . "H " . $minute + 30;
-        // }
-    }else{
-        $deleveryTime = "Delivery will arrive at : ". $heure + 1 . "H " . $minute; 
-    };
+    }; 
 }  
+
 
 
 
